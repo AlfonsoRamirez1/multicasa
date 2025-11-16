@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha Técnica: {{ casa.titulo }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .main-image {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Ajustamos la imagen para que no exceda el ancho de la página */
+        .main-image img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+
+        .details-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        .details-table th, .details-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .details-table th {
+            background-color: #f4f4f4;
+            width: 30%;
+        }
+
+        .description {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Ficha Técnica de Propiedad</h1>
+        <h2>Multicasa</h2>
+    </div>
+
+    <div class="main-image">
+        {% if casa.imagenes.first %}
+            <img src="http://127.0.0.1:8000{{ casa.imagenes.first.imagen.url }}"
+                 alt="{{ casa.imagenes.first.texto_alternativo }}">
+        {% else %}
+            <p>(Sin imagen disponible)</p>
+        {% endif %}
+    </div>
+
+    <h3 style="margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">{{ casa.titulo }}</h3>
+
+    <table class="details-table">
+        <tr>
+            <th>Precio</th>
+            <td>${{ casa.precio }}</td>
+        </tr>
+        <tr>
+            <th>Estatus</th>
+            <td>{{ casa.estatus|title }}</td>
+        </tr>
+        <tr>
+            <th>Dirección</th>
+            <td>{{ casa.direccion|default:"N/A" }}</td>
+        </tr>
+        <tr>
+            <th>Habitaciones</th>
+            <td>{{ casa.habitaciones|default:"N/A" }}</td>
+        </tr>
+        <tr>
+            <th>Baños</th>
+            <td>{{ casa.banos|default:"N/A" }}</td>
+        </tr>
+        <tr>
+            <th>Superficie</th>
+            <td>{{ casa.superficie_m2|default:"N/A" }} m²</td>
+        </tr>
+    </table>
+
+    <div class="description">
+        <h4>Descripción</h4>
+        <p>{{ casa.descripcion|linebreaks }}</p>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+
+{% block title %}{{ titulo_pagina }}{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1 class="h2 mb-4">Dashboard de Administración</h1>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        Casas por Estatus
+                    </div>
+                    <div class="card-body">
+                        <canvas id="graficoEstatus"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        Casas por Rango de Costo
+                    </div>
+                    <div class="card-body">
+                        <canvas id="graficoCostos"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Script para Gráfico 1 (Estatus) ---
+            const ctxEstatus = document.getElementById('graficoEstatus');
+
+            // Pasamos los datos de Django a JavaScript
+            // Usamos 'safe' para que Django imprima la lista/array de Python
+            const labelsEstatus = {{ estatus_labels|safe }};
+            const dataEstatus = {{ estatus_valores|safe }};
+
+            new Chart(ctxEstatus, {
+                type: 'doughnut', // Gráfico de dona (o 'pie' para pastel)
+                data: {
+                    labels: labelsEstatus,
+                    datasets: [{
+                        label: 'Cantidad de Casas',
+                        data: dataEstatus,
+                        backgroundColor: [
+                            'rgb(40, 167, 69)',  // Verde para "En Venta"
+                            'rgb(220, 53, 69)'   // Rojo para "Vendida"
+                        ],
+                        hoverOffset: 4
+                    }]
+                }
+            });
+
+            // --- Script para Gráfico 2 (Costos) ---
+            const ctxCostos = document.getElementById('graficoCostos');
+
+            const labelsCostos = {{ costo_labels|safe }};
+            const dataCostos = {{ costo_valores|safe }};
+
+            new Chart(ctxCostos, {
+                type: 'bar', // Gráfico de barras
+                data: {
+                    labels: labelsCostos,
+                    datasets: [{
+                        label: 'Cantidad de Casas',
+                        data: dataCostos,
+                        backgroundColor: 'rgba(0, 123, 255, 0.7)', // Azul Bootstrap
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

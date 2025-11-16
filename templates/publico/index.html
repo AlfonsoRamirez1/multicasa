@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Inicio - Multicasa{% endblock %}
+
+{% block content %}
+
+    <div class="card shadow-sm mb-4">
+        <img src="{% static 'img/hero_background.png' %}"
+             class="card-img-top"
+             alt="Bienvenido a Multicasa"
+             style="height: 350px; object-fit: cover;">
+        <div class="card-body">
+            <h2 class="card-title">BIENVENIDO a ¡Nuestro sitio Web De MultiCasa!</h2>
+            <p class="card-text">
+                Hello. In this tutorial I will show you how to create an elegant WordPress PSD theme.
+                You can use this web template also for consulting agency templates, services websites,
+                marketing website templates...
+            </p>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} mb-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container-fluid p-0">
+        <h2>Casas Recientes en Venta:</h2>
+        <div class="row">
+            {% if lista_casas %}
+                {% for casa in lista_casas %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card shadow-sm h-100">
+                            {% if casa.imagenes.first %}
+                                <img src="{{ casa.imagenes.first.imagen.url }}" class="card-img-top"
+                                     alt="{{ casa.imagenes.first.texto_alternativo }}" style="height: 250px; object-fit: cover;">
+                            {% else %}
+                                <img src="https://via.placeholder.com/300x200.png?text=Sin+Imagen" class="card-img-top"
+                                     alt="Imagen no disponible" style="height: 250px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ casa.titulo }}</h5>
+                                <p class="card-text fs-5 fw-bold text-success">${{ casa.precio }}</p>
+                                <a href="{% url 'detalle_casa' casa.id_casa %}" class="btn btn-primary">Ver detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col">
+                    <p>No hay casas disponibles en este momento.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+{% block sidebar %}
+
+    <div class="card sidebar-card">
+        <div class="card-header">
+            ENCUENTRA TU FUTURA PROPIEDAD
+        </div>
+        <div class="card-body">
+            <form method="GET" action="{% url 'homepage' %}" class="row g-3">
+
+                <div class="col-12">
+                    <label for="q" class="form-label">Palabra clave</label>
+                    <input type="text" class="form-control" name="q" id="q"
+                           placeholder="Ej. Casa centro..."
+                           value="{{ valores_filtro.q }}">
+                </div>
+
+                <div class="col-12">
+                    <label for="habitaciones" class="form-label">Habitaciones</label>
+                    <select class="form-select" name="habitaciones" id="habitaciones">
+                        <option value="" selected>Todas</option>
+                        <option value="1" {% if valores_filtro.habitaciones == '1' %}selected{% endif %}>1</option>
+                        <option value="2" {% if valores_filtro.habitaciones == '2' %}selected{% endif %}>2</option>
+                        <option value="3" {% if valores_filtro.habitaciones == '3' %}selected{% endif %}>3</option>
+                        <option value="4" {% if valores_filtro.habitaciones == '4' %}selected{% endif %}>4+</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label for="min_precio" class="form-label">Precio Mínimo</label>
+                    <input type="number" class="form-control" name="min_precio" id="min_precio"
+                           placeholder="Mínimo"
+                           value="{{ valores_filtro.min_precio }}">
+                </div>
+
+                <div class="col-12">
+                    <label for="max_precio" class="form-label">Precio Máximo</label>
+                    <input type="number" class="form-control" name="max_precio" id="max_precio"
+                           placeholder="Máximo"
+                           value="{{ valores_filtro.max_precio }}">
+                </div>
+
+                <div class="col-12 d-grid">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="card sidebar-card">
+        <div class="card-body p-0">
+            <nav class="nav flex-column sidebar-nav">
+                <a class="nav-link" href="#">COMPRA</a>
+                <a class="nav-link" href="#">VENTA</a>
+                <a class="nav-link" href="#">MUDANZAS</a>
+                <a class="nav-link" href="#">SEGUROS</a>
+                <a class="nav-link" href="#">CONTACTOS</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card sidebar-card">
+        <div class="card-header">
+            Información De Última Hora
+        </div>
+        <div class="card-body">
+            <p class="small">Nuevo Convenio a Casas Ecológicas. <a href="#">Ver Más...</a></p>
+            <p class="small border-top pt-2">Conoce Nuestros Planes de Descuento Para Trabajadores Del Estado. <a href="#">Ver Más...</a></p>
+        </div>
+    </div>
+
+    <div class="card sidebar-card mt-4" id="formulario-contacto">
+        <div class="card-header">
+            Contacto
+        </div>
+        <div class="card-body">
+            <p class="text-muted small">¿Tienes preguntas? Déjanos un mensaje.</p>
+
+            <form method="POST" action="{% url 'homepage' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nombre" class="form-label small">Tu Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label small">Tu Correo</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="mensaje" class="form-label small">Mensaje</label>
+                    <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required></textarea>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

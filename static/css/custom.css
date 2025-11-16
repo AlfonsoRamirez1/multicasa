@@ -1,0 +1,130 @@
+/* ============================================
+Estilos para Multicasa (Basado en Mockup Azul)
+============================================
+*/
+
+/* 1. Definimos la nueva paleta de colores */
+:root {
+    --color-primario: #0A2B4C;     /* Azul oscuro (Header, Títulos Sidebar) */
+    --color-secundario: #6CADDD;   /* Azul claro (Nav, Botones) */
+    --color-fondo: #E9E9E9;         /* Gris claro del fondo del body */
+    --color-texto-primario: #FFFFFF; /* Texto blanco para fondos oscuros */
+    --color-texto-oscuro: #333;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto-oscuro);
+}
+
+/* ============================================
+Gap 1: Estilos del Header (Navbar)
+============================================
+*/
+.navbar-multicasa {
+    background-color: var(--color-primario);
+    /* Puedes añadir más estilos aquí para replicar el header exacto */
+}
+
+/* =Fondo más claro para la segunda barra de nav, si decides añadirla */
+.navbar-submenu {
+    background-color: var(--color-secundario);
+}
+
+
+/* ============================================
+Gap 2: Estilos de la Barra Lateral (Sidebar)
+============================================
+*/
+.sidebar-card {
+    background-color: #FFFFFF; /* El fondo de las tarjetas del sidebar es blanco */
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.sidebar-card .card-header {
+    background-color: var(--color-primario);
+    color: var(--color-texto-primario);
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-bottom: none;
+}
+
+.sidebar-card .card-body .form-label {
+    font-weight: bold;
+    color: var(--color-primario);
+    margin-bottom: 0.5rem;
+}
+
+/* Estilo para los links de navegación del mockup (Compra, Venta, etc.) */
+.sidebar-nav .nav-link {
+    color: var(--color-secundario);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+.sidebar-nav .nav-link:hover {
+    background-color: #f7f7f7;
+    color: var(--color-primario);
+}
+
+
+/* ============================================
+Gap 3: Estilo de Botones (Global)
+============================================
+*/
+.btn-primary {
+    background-color: var(--color-secundario);
+    border-color: var(--color-secundario);
+    color: var(--color-texto-primario); /* O --color-texto-oscuro si se ve mejor */
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #5a9bc9; /* Un tono de azul claro más oscuro */
+    border-color: #5a9bc9;
+    color: var(--color-texto-primario);
+}
+
+/* ============================================
+Gap 4: Estilos del Footer (Global)
+============================================
+*/
+.footer-multicasa {
+    background-color: var(--color-primario); /* Azul oscuro */
+    color: #adb5bd; /* Gris claro para el texto */
+    padding: 40px 0;
+}
+
+.footer-multicasa h5 {
+    color: var(--color-secundario); /* Títulos del footer en azul claro */
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.footer-multicasa p,
+.footer-multicasa li {
+    color: #adb5bd;
+}
+
+.footer-multicasa a {
+    color: #adb5bd;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-multicasa a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    background-color: #000;
+    color: #adb5bd;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 0.9em;
+}
