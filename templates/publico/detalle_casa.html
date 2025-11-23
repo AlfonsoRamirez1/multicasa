@@ -12,8 +12,8 @@
                         {% for img in casa.imagenes.all %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <img src="{{ img.get_image_src }}" class="d-block w-100"
-                                    style="height: 500px; object-fit: cover;" 
-                                    alt="{{ img.texto_alternativo|default:'Imagen de propiedad' }}">
+                                     style="height: 500px; object-fit: cover;"
+                                     alt="{{ img.texto_alternativo|default:'Imagen de propiedad' }}">
                             </div>
                         {% endfor %}
                     </div>
@@ -36,39 +36,48 @@
             <div class="card mb-4">
                 <div class="card-header">Ubicación</div>
                 <div class="card-body">
-                    <p><strong>Dirección:</strong> {{ casa.direccion }}</p>
+                    <p class="mb-1">
+                        <strong>Dirección:</strong>
+                        {{ casa.direccion|default:"Sin referencia de calle" }}
+                    </p>
+                    <p class="mb-1">
+                        <strong>Municipio:</strong>
+                        {{ casa.municipio|default:"Sin referencia de municipio" }}
+                    </p>
+                    <p class="mb-1">
+                        <strong>Estado:</strong>
+                        {{ casa.estado|default:"Sin referencia de estado" }}
+                    </p>
+                    <p class="mb-3">
+                        <strong>Código Postal:</strong>
+                        {{ casa.codigo_postal|default:"Sin referencia de CP" }}
+                    </p>
+
                     <div id="map" style="height: 400px; width: 100%; border-radius: 8px; z-index: 1;"></div>
 
                     <script>
                         document.addEventListener('DOMContentLoaded', function () {
-                            // 1. Obtenemos las coordenadas de la casa (o usamos unas por defecto si no tiene)
-                            // Nota: 'safe' es necesario para que Django no escape los números decimales
+                            // Coordenadas de la casa (o por defecto CDMX)
                             var latitud = "{{ casa.latitud|default:'19.4326' }}";
                             var longitud = "{{ casa.longitud|default:'-99.1332' }}";
                             var titulo = "{{ casa.titulo|escapejs }}";
 
-                            // Convertimos a números flotantes
                             var lat = parseFloat(latitud);
                             var lng = parseFloat(longitud);
 
-                            // Verificamos si las coordenadas son válidas (distintas de 0 o nulas)
                             if (lat && lng) {
-                                // 2. Inicializamos el mapa en el div con id="map"
                                 var map = L.map('map').setView([lat, lng], 15);
 
-                                // 3. Cargamos las capas de OpenStreetMap (El diseño del mapa)
                                 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                     maxZoom: 19,
                                     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                                 }).addTo(map);
 
-                                // 4. Agregamos el marcador (pin) en la ubicación
                                 var marker = L.marker([lat, lng]).addTo(map);
-
-                                // 5. Le ponemos un pop-up con el nombre de la casa
                                 marker.bindPopup("<b>" + titulo + "</b><br>Ubicación exacta.").openPopup();
                             } else {
-                                document.getElementById('map').innerHTML = '<div class="alert alert-warning">Ubicación no disponible para esta propiedad.</div>';
+                                document.getElementById('map').innerHTML =
+                                    '<div class="alert alert-warning">Ubicación no disponible para esta propiedad.</div>';
                             }
                         });
                     </script>
@@ -98,8 +107,8 @@
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Estatus:</span>
                             <span class="badge {% if casa.estatus == 'en venta' %}bg-success{% else %}bg-danger{% endif %}">
-                            {{ casa.estatus|title }}
-                        </span>
+                                {{ casa.estatus|title }}
+                            </span>
                         </li>
                     </ul>
 
@@ -116,7 +125,8 @@
         </div>
     </div>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin=""/>
 

@@ -1,6 +1,7 @@
 {% extends "admin/change_form.html" %}
 {% load static %}
 
+{# Solo cargamos Leaflet. El div del mapa lo crea casa_map.js debajo de Código Postal #}
 {% block extrahead %}
     {{ block.super }}
     <link rel="stylesheet"
