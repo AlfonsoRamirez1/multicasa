@@ -78,7 +78,8 @@
 
     <div class="main-image">
         {% if casa.imagenes.first %}
-            <img src="http://127.0.0.1:8000{{ casa.imagenes.first.imagen.url }}"
+            <img src="http://127.0.0.1:8000{{ ca
+                sa.imagenes.first.imagen.url }}"
                  alt="{{ casa.imagenes.first.texto_alternativo }}">
         {% else %}
             <p>(Sin imagen disponible)</p>
