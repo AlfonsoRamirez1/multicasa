@@ -1,0 +1,18 @@
+# Python y compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+db.sqlite3
+media/
+
+# Entornos Virtuales (¡Muy importante!)
+.venv/
+venv/
+env/
+
+# Configuración de IDEs
+.idea/
+.vscode/

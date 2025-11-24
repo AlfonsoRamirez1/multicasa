@@ -148,8 +148,8 @@ def generar_pdf_casa(request, id_casa):
         # El nombre del archivo que se descargará
         filename = f"Ficha_Tecnica_Casa_{id_casa}.pdf"
 
-        # Le decimos al navegador que es una descarga
-        content = f"attachment; filename='{filename}'"
+        # Le decimos al navegador que es una descarga.
+        content = f"attachment; filename={filename}"
         response['Content-Disposition'] = content
         return response
 
