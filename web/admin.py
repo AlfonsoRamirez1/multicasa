@@ -73,13 +73,69 @@ class ImagenCasaInline(admin.TabularInline):
 
 
 # =========================
-# FORMULARIO Casa + JS MAPA
+# FORMULARIO Casa + JS MAPA + VALIDACIONES
 # =========================
 
 class CasaAdminForm(forms.ModelForm):
+    # --- Validaciones estrictas para el panel de Admin ---
+
+    descripcion = forms.CharField(
+        widget=forms.Textarea,
+        required=True,
+        min_length=20,
+        help_text="Descripción detallada (mínimo 20 caracteres) para asegurar calidad."
+    )
+    direccion = forms.CharField(
+        required=True,
+        help_text="La dirección es obligatoria para el registro."
+    )
+    municipio = forms.CharField(required=True)
+    estado = forms.CharField(required=True)
+    codigo_postal = forms.CharField(
+        required=True,
+        min_length=5,
+        max_length=5,
+        help_text="Debe ser un código postal válido de 5 dígitos."
+    )
+
+    habitaciones = forms.IntegerField(
+        required=True,
+        min_value=1,
+        help_text="Debe tener al menos 1 habitación."
+    )
+    banos = forms.IntegerField(
+        required=True,
+        min_value=1,
+        help_text="Debe tener al menos 1 baño."
+    )
+    superficie_m2 = forms.IntegerField(
+        required=True,
+        min_value=10,
+        help_text="Superficie mínima de 10 m²."
+    )
+
     class Meta:
         model = Casa
         fields = '__all__'
+
+    def clean(self):
+        """
+        Validación personalizada para detectar datos falsos o de prueba
+        """
+        cleaned_data = super().clean()
+        titulo = cleaned_data.get('titulo')
+        descripcion = cleaned_data.get('descripcion')
+
+        # Palabras comunes usadas en pruebas que queremos rechazar
+        palabras_prueba = ['prueba', 'test', 'ejemplo', 'asd', 'lorem', 'pendiente', 'borrar']
+
+        if titulo and any(p in titulo.lower() for p in palabras_prueba):
+            self.add_error('titulo', 'El título parece ser un dato de prueba. Por favor ingrese un título real.')
+
+        if descripcion and any(p in descripcion.lower() for p in palabras_prueba):
+            self.add_error('descripcion', 'La descripción contiene palabras de prueba. Ingrese una descripción real.')
+
+        return cleaned_data
 
     class Media:
         # static/js/casa_map.js
