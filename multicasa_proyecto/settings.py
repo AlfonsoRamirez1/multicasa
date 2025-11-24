@@ -159,5 +159,5 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 1800  # 1800 segundos = 30 minutos
 
 # 3. (Opcional) Refresca la duración de la sesión con cada clic.
-# Esto evita que se le cierre la sesión a alguien que está trabajando activamente.
+# Esto evita que se le cierre la sesión a alguien que está trabajando activamente
 SESSION_SAVE_EVERY_REQUEST = True
